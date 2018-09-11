@@ -93,13 +93,13 @@ running, etc.
 \usecase{BPS}{Override default configuration options}
 The Operator wants to override a subset of configuration options for a
 campaign/pipeline at any configuration level (i.e., global, site, campaign,
-pipeline, job, SuperTask). These overrides include but are not limited to:
+pipeline, job, PipelineTask). These overrides include but are not limited to:
 \begin{itemize}
   \item
-    execution configuration of a SuperTask (e.g., expected amount of memory
+    execution configuration of a PipelineTask (e.g., expected amount of memory
     needed),
   \item
-    science configuration of a SuperTask (e.g., update particular threshold),
+    science configuration of a PipelineTask (e.g., update particular threshold),
   \item
     globally override certain configurations (e.g., whether to bring all output
     datasets home from job including intermediates),
@@ -109,7 +109,7 @@ pipeline, job, SuperTask). These overrides include but are not limited to:
   \item
     excluding certain data from a campaign,
   \item
-    modify pipeline sequence of SuperTasks (e.g., only run half of a pipeline
+    modify pipeline sequence of PipelineTasks (e.g., only run half of a pipeline
     for debugging).
 \end{itemize}
 
@@ -118,10 +118,11 @@ The Operator requests to run a pipeline with specific versions of the LSST
 packages (e.g. wants to use a particular LSST Stack release or specific
 versions of individual packages).
 
-\usecase{BPS}{Order steps in a pipeline}
+\usecase{BPS}{Execute pipeline steps in specific order}
 The Operator specifies the order in which steps constituting the pipeline
 should be executed (e.g. to postpone execution of steps which are likely to
-fail towards the end of a pipeline or start processing from specific steps).
+fail towards the end of a pipeline when executing it in hard failure
+mode, i.e., halting pipeline execution as soon as one of its steps fails).
 
 \usecase{BPS}{Divide a pipeline into smaller subpipelines}
 The Operator divides a pipeline into smaller subpipelines. (e.g. when the
@@ -157,7 +158,7 @@ pipelines), and submits them for processing.
 \usecase{BPS}{Terminate a failed campaign/pipelines}
 The Operator declares a running campaign/pipelines to be a failure and wants to terminate the processing before its completion.
 
-\usecase{BPS}{Pause/Unpause a campaign/pipelines}
+\usecase{BPS}{Pause/unpause a campaign/pipelines}
 The Operator or CM wants to pause dispatching of new compute jobs or pipelines
 in a campaign to release the resources, e.g., for a campaign with higher
 priority or for maintenance, allowing currently running compute jobs or
@@ -180,14 +181,19 @@ CC-IN2P3 but avoid specific machines cc3000 and cc4003).
 The Operator wants the flexibility to execute pipelines on platforms with
 different architectures (e.g. with and without shared filesystem).
 
+\usecase{BPS}{Run a pipeline using Gen2 Middleware}
+The Operator wants to run a scientific payload which uses Gen2 Middleware
+(until it is completely deprecated).
+
 \usecase{BPS}{Run a pipeline using Gen3 Middleware}
 The Operator wants to run a scientific payload which uses Gen3 Middleware (e.g.
-to chain a set of SuperTasks in memory).
+to chain a set of PipelineTasks in memory).
 
 \usecase{BPS}{Fail pipelines immediately or lazily}
 Under certain conditions, the Operator may want to have the pipeline execution
-halt at first failure or continue execution as long as pipeline dependencies
-are satisfied. In either case, the Operator wants a pipeline execution to be marked as failed.
+halted at first failure (hard failure mode) or continue execution as long as
+pipeline dependencies are satisfied. In either case, the Operator wants a
+pipeline execution to be marked as failed.
 
 \usecase{BPS}{Restart a failed campaign/pipeline}
 The Operator requests to start processing a failed pipeline from the point as
@@ -232,30 +238,26 @@ originate from the Data Backbone and store the results there.
 The Operator wants to dispatch and manage pipelines at the scale needed to meet
 LSST objectives within the objective’s time constraints.
 
-\usecase{BPS}{Spawn a familiar}
-The Operator wants a pet to be present during a campaign execution for their
-emotional support.
-
 \section{Monitoring}
 
 \usecase{BPS}{Monitor available resources}
 The Operator wants to know what is the state of available computational
 resources (e.g. are there any unscheduled outages).
 
-\usecase{BPS}{Monitor campaign/pipeline/job/SuperTask execution}
+\usecase{BPS}{Monitor campaign/pipeline/job/PipelineTask execution}
 The Operator or the Campaign Manager tracks campaign/pipeline/job execution,
 i.e., monitors in real time metrics such as:
 \begin{itemize}
   \item
-    number of pending, running, finished, and failed jobs/SuperTasks;
+    number of pending, running, finished, and failed jobs/PipelineTasks;
   \item
     amount of computer resources (e.g. CPUs, memory, disk space) in use vs
     idle;
   \item
-    job runtime information (e.g. hostname, memory, wall/CPU time, data input
+    job runtime information (e.g. host name, memory, wall/CPU time, data input
     and output volume).
   \item
-    what SuperTask or framework step is currently running (if possible seeing
+    what PipelineTask or framework step is currently running (if possible seeing
     stdout/stderr from the step) for when pipelines seem to be taking too long.
 \end{itemize}
 
@@ -274,7 +276,7 @@ threshold, etc.)
 \section{History}
 
 \usecase{BPS}{View runtime metrics and provenance}
-For each step (including SuperTasks, scheduling, data transfer, database
+For each step (including PipelineTasks, scheduling, data transfer, database
 access, pre-flight, etc.), the Operator wants to view/query information such
 as:
 \begin{itemize}
@@ -287,6 +289,8 @@ as:
   \item
     version of software used,
   \item
+    pipeline step's environment,
+  \item
     what input datasets were used (where applicable),
   \item
     what output datasets were produced (where applicable).
@@ -298,8 +302,8 @@ data quality output by the pipeline.
 
 \usecase{BPS}{Browse stdout/stderr/logs}
 The Operator wants to have easy access to stderr/stdout/logs finished jobs,
-i.e., being able to quickly find the log file of a specific job, search log
-files for certain keywords/phrases.
+i.e., being able to quickly find the log of a specific pipeline step, search
+logs for certain keywords/phrases.
 
 \usecase{BPS}{Compare pipeline executions}
 The Operator wants to compare different pipeline executions with regard to data
