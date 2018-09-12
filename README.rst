@@ -3,9 +3,9 @@
 .. image:: https://travis-ci.org/lsst/ldm-633.svg
    :target: https://travis-ci.org/lsst/ldm-633
 
-#############################################
-Offline Processing Workload/Workflow Services
-#############################################
+#########################
+Batch Production Services
+#########################
 
 LDM-633
 -------
