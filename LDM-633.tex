@@ -198,7 +198,7 @@ time of submission.
 \usecase{BPS}{Initiate a campaign}
 The Operator specifies a campaign and submits it for processing.
 
-\usecase{BPS}{Terminate a failed campaign/payload}
+\usecase{BPS}{Terminate a campaign/payload}
 The Operator declares a running campaign/payload to be a failure. The
 BPS should terminate its processing immediately.
 
@@ -280,14 +280,14 @@ longer than some operator-specified threshold, etc.)
 
 \section{Post run}
 
-\usecase{BPS}{Restart a failed campaign/payload}
+\usecase{BPS}{Restart a campaign/payload}
 The Operator requests to restart processing a failed campaign/payload from the
 point as close as possible to the failure (i.e. not from the very beginning).
 Restarting a campaign/payload may include one or more of the following:
 changing software stack to be used, changing science configuration, changing
 execution configuration, etc.
 
-\usecase{BPS}{Designate point of failure}
+\usecase{BPS}{Designate point of restart}
 A workflow execution may not hard fail at the correct step and hard fail later
 or may seemly complete the entire pipeline but produce bad science results.  An
 Operator may choose to either submit a new campaign/payload or restart payload
