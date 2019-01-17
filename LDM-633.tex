@@ -60,16 +60,6 @@ Service (BPS).  These use cases are driven by offline production
 processing, but may also apply to other user needs, e.g. pipeline
 developers.
 
-Computation on a production scale on distributed resources with varying
-architectures to satisfy project goals differs significantly from the
-way it is done by most science pipelines developers who run at a smaller
-scale on a single development cluster.  Hence, the BPS needs to provide
-additional set of features for offline production processing.
-
-This service use case document does not cover portions of what would be
-covered in complete Operations use cases, e.g., having change board
-approval (or pre-approved rules) prior to changing a configuration.    
-
 Offline Batch Production Service includes both the Campaign Management and
 Workload/Workflow software products.  The service executes science payloads as
 "campaigns" consisting of a defined sequence of pipelines, a defined
@@ -77,7 +67,14 @@ configuration, and defined inputs and outputs.  Many different payloads may be
 executed on many different campaign cadences.  The service is able to handle
 massively distributed computing allocating work across multiple enclaves, in
 particular between NCSA and the Satellite Facility at CC-IN2P3, which will have
-capacity for half of the DRP processing.
+capacity for half of the DRP processing.  As the way science pipelines are
+executed in the BPS differs significantly from the way it is done by most
+science pipelines developers, the service needs to provide additional set of
+features for offline production processing.
+
+This service use case document does not cover portions of what would be
+covered in complete Operations use cases, e.g., having change board
+approval (or pre-approved rules) prior to changing a configuration.    
 
 Many operations such as submissions, restarts, pauses, terminations,
 monitoring, etc., apply to single pipelines or groups of pipelines.  To avoid
@@ -91,9 +88,9 @@ specified otherwise.
     Data independent description of algorithmic work (in Gen3 Middleware
     nomenclature it is called a PipelineTask)
   \item[Pipeline] 
-    A sequence of individual pipeline step definitions, ordered according to
-    their data dependencies, that performs particular data analysis and product
-    generation (see LDM-151 for science definitions of pipelines).
+    A sequence of individual pipeline step definitions that performs particular
+    data analysis and product generation (see LDM-151 for science definitions
+    of pipelines).
   \item[Payload]
     A sequence of pipelines to achieve an LSST objective, e.g. a sequence of
     pipelines to be used for DRP (sometimes referred to as a ``production'').
@@ -114,9 +111,10 @@ specified otherwise.
     A unit of execution submitted via platform's batch computing
     service. It may consist of one or more pipeline step instances.
   \item[Workflow]
-    A collection of jobs ordered by data dependencies (in Gen3 Middleware, it
-    is a result of applying an execution configuration to a QuantumGraph,
-    grouping pipeline step instances into jobs).
+    A collection of jobs ordered by data dependencies represented as a direct,
+    acyclic graph (in Gen3 Middleware, it is a result of applying an execution
+    configuration to a QuantumGraph, grouping pipeline step instances into
+    jobs).
 \end{description}
 
 \section{Actors}
@@ -206,8 +204,8 @@ time (e.g. for debugging purposes).
 
 \usecase{PRE}{Deal with unknown/defective data}
 The Operator configures the BPS to stage out any files that are not expected
-(i.e. are in a wrong place, have wrong name) or are missing some of required
-metadata.
+(i.e. not listed, are in a wrong place, have wrong name) or are missing some of
+required metadata.
 
 \usecase{PRE}{Prioritize (sub)campaigns}
 The Operator assigns different processing priorities for (sub)campaigns at
