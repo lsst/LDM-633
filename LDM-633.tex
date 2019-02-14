@@ -155,6 +155,11 @@ limited to:
   \item
     excluding certain data from a campaign.
 \end{itemize}
+As it was mentioned earlier, which changes of configuration are pre-approved
+and which require change board approval is beyond scope of this document.
+Regardless of the LSST operation change protocol, the Operator needs an ability 
+to make approved configuration changes.
+
 
 \usecase{PRE}{Modify pipeline}
 The Operator modifies sequence of pipeline step definitions. Modification may
@@ -252,10 +257,10 @@ The Operator submits a (sub)campaign which requires Gen3 Middleware (e.g.
 to chain a set of PipelineTasks in memory).
 
 \usecase{RUN}{Support optional inputs}
-Certain steps in a workflow can proceed even when not all declared
-inputs are present.  The Operator wants the BPS to continue with
-processing for such steps providing their minimal requirements are
-satisfied.
+Certain steps in a workflow can proceed even when not all declared inputs are
+present.  The Operator wants the BPS to continue with processing for such steps
+providing (a) all predecessors completed their execution and (b) minimal
+requirements are satisfied.
 
 \usecase{RUN}{Retry defective steps/jobs}
 Based on the submit time configuration, the WMS automatically retries defective
@@ -280,14 +285,14 @@ metrics such as:
     number of pending, running, finished, and failed jobs/pipeline step
     instances;
   \item
-    amount of computer resources (e.g. CPUs, memory, disk space) in use vs
-    idle;
+    amount of computer resources (e.g. CPUs, memory, disk space) in use;
   \item
     job runtime information (e.g. host name, memory, wall/CPU time, data input
     and output volume).
   \item
-    what pipeline step instance or framework step is currently running (if possible seeing
-    stdout/stderr from the step) for when pipelines seem to be taking too long.
+    what pipeline step instance or framework step is currently running (if
+    possible seeing stdout/stderr from the step) for when pipelines seem to be
+    taking too long.
 \end{itemize}
 
 \usecase{RUN}{Verify results integrity}
@@ -351,7 +356,7 @@ instance, search logs for certain keywords/phrases.
 
 \usecase{POST}{Compare pipeline executions}
 The Operator compares multiple payload executions with regard to data
-products, quality control and runtime metrics (e.g. to evaluate the impact of a
+products and runtime metrics (e.g. to evaluate the impact of a
 software change).
 
 \usecase{POST}{Summarize a campaign}
