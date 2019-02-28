@@ -7,20 +7,11 @@
 
 % Local commands go here.
 
-\newcounter{usecase}
-\counterwithin*{usecase}{section}
-\newcommand{\usecase}[2]{
-  \refstepcounter{usecase}
-  \subsection{\emph{#1\theusecase}: #2}\label{use:#1\theusecase}
-}
-
-\newenvironment{flow}[1][Basic flow]
-  {\subsubsection*{#1}\begin{enumerate}[label=\alph*.,itemsep=0pt]}
-  {\end{enumerate}}
+\newcommand{\usecase}[2]{\subsection{\emph{#1}: #2}\label{use:#1}}
 
 % To add a short-form title:
 % \title[Short title]{Title}
-\title{Offline Batch Production Service Use Cases}
+\title{Offline Batch Production Services Use Cases}
 
 % Optional subtitle
 % \setDocSubtitle{A subtitle}
@@ -35,7 +26,7 @@
 % \setDocCurator{The Curator of this Document}
 
 \setDocAbstract{%
-  This document describes use cases for Offline Batch Production Service.
+  This document describes use cases for Offline Batch Production Services.
 } 
 
 % Change history defined here.
@@ -56,7 +47,7 @@
 \section{Introduction}
 
 This document describes use cases for the LSST Offline Batch Production
-Service (BPS).  These use cases are driven by offline production
+Services (BPS).  These use cases are driven by offline production
 processing, but may also apply to other user needs, e.g. pipeline
 developers.
 
@@ -132,7 +123,7 @@ specified otherwise.
 
 \section{Pre-runtime}
 
-\usecase{PRE}{Override default configuration options}
+\usecase{PRE1}{Override default configuration options}
 The Operator wants to override a subset of configuration options for a
 campaign/pipeline at any configuration level (i.e., global, site, campaign,
 payload, pipeline step definition).  These overrides include but are not
@@ -161,7 +152,7 @@ Regardless of the LSST operation change protocol, the Operator needs an ability
 to make approved configuration changes.
 
 
-\usecase{PRE}{Modify pipeline}
+\usecase{PRE2}{Modify pipeline}
 The Operator modifies sequence of pipeline step definitions. Modification may
 include: 
 \begin{itemize}
@@ -175,16 +166,16 @@ include:
     reasons.
 \end{itemize}
 
-\usecase{PRE}{Select specific software version(s)}
+\usecase{PRE3}{Select specific software version(s)}
 The Operator requests to run a campaign with specific versions of the
 LSST packages (e.g. wants to use a particular release of LSST Scientific
 Pipelines or specific versions of individual packages).
 
-\usecase{PRE}{Execute workflow in specific order}
+\usecase{PRE4}{Execute workflow in specific order}
 The Operator specifies the order in which the workflow should be executed
 including, but not limited to, breadth-first search and depth-first search.
 
-\usecase{PRE}{Support dynamic workflows}
+\usecase{PRE5}{Support dynamic workflows}
 The workflow of certain pipelines may not be determinable at submit
 time, but require discovering what outputs were actually created at
 runtime for certain steps for determining number of instances of
@@ -194,86 +185,85 @@ The dynamic generation is related to data discovery only. It does not
 include a support for conditional execution or rerunning jobs or parts
 of the workflow based on some quality metrics.
 
-\usecase{PRE}{Reduce number of compute jobs}
+\usecase{PRE6}{Reduce number of compute jobs}
 The Operator configures the BPS to group portions of the workflow into smaller
 number of compute jobs to reduce the time overhead related to job startup
 costs.
 
-\usecase{PRE}{Halt or continue on failures}
+\usecase{PRE7}{Halt or continue on failures}
 The Operator configures the BPS whether to stop or continue workflow execution
 based on failures of specific pipeline step instances.
 
-\usecase{PRE}{Save intermediate datasets}
+\usecase{PRE8}{Save intermediate datasets}
 The Operator turns on/off the saving of intermediate datasets during submit
 time (e.g. for debugging purposes).
 
-\usecase{PRE}{Deal with unknown/defective data}
+\usecase{PRE9}{Deal with unknown/defective data}
 The Operator configures the BPS to stage out any files that are not expected
 (i.e. not listed, are in a wrong place, have wrong name) or are missing some of
 required metadata.
 
-\usecase{PRE}{Prioritize (sub)campaigns}
+\usecase{PRE10}{Prioritize (sub)campaigns}
 The Operator assigns different processing priorities for (sub)campaigns at
 time of submission. 
 
-\usecase{PRE}{Initiate a campaign}
+\usecase{PRE11}{Initiate a campaign}
 The Operator specifies a campaign and submits it for processing.
 
 
 \section{Runtime}
 
-\usecase{RUN}{Terminate a (sub)campaign}
+\usecase{RUN1}{Terminate a (sub)campaign}
 The Operator declares a running (sub)campaign to be a failure. The BPS should
 terminate its processing immediately.
 
-\usecase{RUN}{Pause a (sub)campaign}
+\usecase{RUN2}{Pause a (sub)campaign}
 The Operator orders the BPS to stop dispatching new workflows/jobs
 associated with a selected running (sub)campaign either to free
 resources for a campaign with higher priority or due to site maintenance.
 
-\usecase{RUN}{Alter compute resources}
+\usecase{RUN3}{Alter compute resources}
 The Operator assigns new compute resources to a (sub)campaign put on
 hold and orders the BPS to start dispatching related workflows/jobs.
 This does not include the ability to change other aspects of
 configuration for the (sub)campaign.
 
-\usecase{RUN}{Dispatch workflows/jobs to specific computational platform(s)}
+\usecase{RUN4}{Dispatch workflows/jobs to specific computational platform(s)}
 During submission time, the Operator provides a list of available
 compute sites.  The BPS dispatches workflows/jobs to specified
 computational platforms based on workflow/job requirements.  This
 includes Operator's ability to enforce execution of selected
 workflows/jobs on a specific platform.
 
-\usecase{RUN}{Alter priorities of (sub)campaigns}
+\usecase{RUN5}{Alter priorities of (sub)campaigns}
 The Operator needs to alter priorities of a (sub)campaign (it does not imply
 providing a support for eviction of running jobs with lower priorities).
 
-\usecase{RUN}{Use Gen3 Middleware}
-The Operator submits a (sub)campaign which requires Gen3 Middleware (e.g.
-to chain a set of PipelineTasks in memory).
+\usecase{RUN6}{Use Pipeline Middleware}
+The Operator submits a (sub)campaign which requires current, stable version of the Pipeline  Middleware (e.g.  to chain a set of PipelineTasks in memory).
 
-\usecase{RUN}{Support optional inputs}
+\usecase{RUN7}{Support optional inputs}
 Certain steps in a workflow can proceed even when not all declared inputs are
 present.  The Operator wants the BPS to continue with processing for such steps
 providing (a) all predecessors completed their execution and (b) minimal
 requirements are satisfied.
 
-\usecase{RUN}{Retry defective steps/jobs}
+\usecase{RUN8}{Retry defective steps/jobs}
 Based on the submit time configuration, the WMS automatically retries defective
 steps/jobs providing certain criteria are met (e.g. type of failure).  The
 preference is to retry the minimal amount of workflow necessary, but leaving
 flexibility to work around implementation difficulties.
 
-\usecase{RUN}{Interact with the Data Backbone}
+\usecase{RUN9}{Interact with the Data Backbone}
 For production payloads, the BPS retrieves the inputs from the Data Backbone
 and store the results there.
 
-\usecase{RUN}{Monitor available resources}
+\usecase{RUN10}{Monitor available resources}
 The Operator needs to be able to monitor the status of the BPS service as well
 as any of its underpinning components (including any suspicions by BPS that a
 node is not fit for use).
 
-\usecase{RUN}{Monitor workflow execution}
+\usecase{RUN11}{Monitor workflow execution}
 The Operator or the CM tracks workflow execution, i.e., monitors in real time
 metrics such as:
 \begin{itemize}
@@ -291,14 +281,14 @@ metrics such as:
     taking too long.
 \end{itemize}
 
-\usecase{RUN}{Verify results integrity}
+\usecase{RUN12}{Verify results integrity}
 Based on submit time configuration, the BPS verifies that all the required
 outputs were generated and staged out correctly for each successful workflow.
 
 Note: Validation that the payload configuration and execution produced the
 correct results is outside of the scope of this use case.
 
-\usecase{RUN}{Notify about runtime events}
+\usecase{RUN13}{Notify about runtime events}
 Based on submit time configuration, the BPS sends notifications about
 campaign/payload level events (e.g.  its failure, completion, jobs taking
 longer than some operator-specified threshold, etc.)
@@ -306,24 +296,24 @@ longer than some operator-specified threshold, etc.)
 
 \section{Post-runtime}
 
-\usecase{POST}{Restart a campaign/payload}
+\usecase{POST1}{Restart a campaign/payload}
 The Operator requests to restart processing a failed campaign/payload from the
 point as close as possible to the failure (i.e. not from the very beginning).
 Restarting a campaign/payload may include one or more of the following:
 changing software stack to be used, changing science configuration, changing
 execution configuration, etc.
 
-\usecase{POST}{Designate point of restart}
+\usecase{POST2}{Designate point of restart}
 A workflow execution may not hard fail at the correct step and hard fail later
 or may seemly complete the entire pipeline but produce bad science results.  An
 Operator may choose to either submit a new campaign/payload or restart payload
 at a failure point the operator chooses.
 
-\usecase{POST}{Investigate output datasets}
+\usecase{POST3}{Investigate output datasets}
 The Operator uses similar procedures and tools to investigate both
 successful and failed campaign/payloads.
 
-\usecase{POST}{View runtime metrics and provenance}
+\usecase{POST4}{View runtime metrics and provenance}
 For each workflow step (including pipeline step instances, scheduling, data
 transfer, data loading, workflow generation, etc.), the Operator views/queries
 information such as:
@@ -345,17 +335,17 @@ information such as:
     what output datasets were produced (where applicable).
 \end{itemize}
 
-\usecase{POST}{Browse stdout/stderr/logs}
+\usecase{POST5}{Browse stdout/stderr/logs}
 The Operator analyzes stderr/stdout/logs finished workflows/jobs,
 i.e., needs to be able to quickly find the log of a specific pipeline step
 instance, search logs for certain keywords/phrases.
 
-\usecase{POST}{Compare pipeline executions}
+\usecase{POST6}{Compare pipeline executions}
 The Operator compares multiple payload executions with regard to data
 products and runtime metrics (e.g. to evaluate the impact of a
 software change).
 
-\usecase{POST}{Summarize a campaign}
+\usecase{POST7}{Summarize a campaign}
 The Operator views a summary of a campaign, e.g., a breakdown showing
 times, resource usage for individual pipelines (if possible, indicating
 pipelines deviating from a norm).
