@@ -8,15 +8,15 @@ Batch Production Services
 #########################
 
 LDM-633
--------
+#######
 
 Use cases for LSST Batch Production Services.
 
 **Links**
 
-..
-   - Live drafts: https://ldm-633.lsst.io
-   - GitHub: https://github.com/lsst/ldm-633
+- Live drafts: https://ldm-633.lsst.io
+- GitHub: https://github.com/lsst/ldm-633
+- DocuShare: https://ls.st/LDM-633
 
 ****
 
